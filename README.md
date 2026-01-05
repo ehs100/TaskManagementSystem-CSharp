@@ -5,7 +5,7 @@ The application demonstrates clean architecture, separation of concerns, and bas
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 This project is a multi-layered task management system consisting of:
 - A RESTful API
@@ -17,7 +17,7 @@ It was designed to showcase backend development, desktop application development
 
 ---
 
-## 🏗️ Solution Structure
+##  Solution Structure
 
 - **TaskManager.Api**  
   REST API layer for managing tasks and exposing endpoints.
@@ -33,7 +33,7 @@ It was designed to showcase backend development, desktop application development
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - C#  
 - .NET  
