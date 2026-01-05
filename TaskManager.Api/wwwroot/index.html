@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .task {
+            background: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .task.done {
+                text-decoration: line-through;
+                color: gray;
+            }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #0056b3;
+            }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>📝 Task Manager</h1>
+
+    <div>
+        <input id="title" placeholder="Titel" />
+        <textarea id="description" placeholder="Beschreibung"></textarea>
+        <input id="dueDate" type="date" />
+        <button onclick="createTask()">➕ Hinzufügen</button>
+    </div>
+
+    <h2>Aufgaben</h2>
+    <div id="taskList"></div>
+
+    <script>
+    const apiUrl = "https://localhost:7133/Tasks";
+
+    async function loadTasks() {
+      const res = await fetch(apiUrl);
+      const tasks = await res.json();
+      const container = document.getElementById("taskList");
+      container.innerHTML = "";
+
+      tasks.forEach(task => {
+        const div = document.createElement("div");
+        div.className = "task" + (task.isDone ? " done" : "");
+        div.innerHTML = `
+          <div>
+            <strong>${task.title}</strong><br/>
+            <small>${task.description || ""}</small><br/>
+            <small>Fällig: ${new Date(task.dueDate).toLocaleDateString()}</small>
+          </div>
+          <div>
+            <button onclick="toggleTask('${task.id}')">${task.isDone ? "↩️ Rückgängig" : "✅ Erledigt"}</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function createTask() {
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const dueDate = document.getElementById("dueDate").value;
+
+      if (!title || !dueDate) {
+        alert("Bitte Titel und Fälligkeitsdatum eingeben!");
+        return;
+      }
+
+      await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description, dueDate })
+      });
+
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("dueDate").value = "";
+      loadTasks();
+    }
+
+    async function toggleTask(id) {
+      await fetch(`${apiUrl}/${id}/toggle`, { method: "PUT" });
+      loadTasks();
+    }
+
+    loadTasks();
+    </script>
+</body>
+</html>

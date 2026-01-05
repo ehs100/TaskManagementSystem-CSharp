@@ -1,0 +1,23 @@
+[
+  {
+    "Id": "8f2ab030-da8c-4687-ada1-eb0070f8f779",
+    "Title": "Einkaufen",
+    "Description": "Milch kaufen",
+    "DueDate": "2025-03-01T00:00:00",
+    "IsDone": false
+  },
+  {
+    "Id": "8768de84-7e0d-45f0-8589-5b61447c686f",
+    "Title": "Einkaufen",
+    "Description": "Milch kaufen",
+    "DueDate": "2025-03-01T00:00:00",
+    "IsDone": true
+  },
+  {
+    "Id": "8977b717-499b-456f-8c3c-e019aa46f8bb",
+    "Title": "string",
+    "Description": "string",
+    "DueDate": "2025-11-14T05:43:42.09Z",
+    "IsDone": true
+  }
+]
